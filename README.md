@@ -24,11 +24,15 @@ This tutorial will include:
 
 ## Facial Recognition
 
-I originally developed the facial recognition part of this project in 2016. The project then was built on a Raspberry Pi and included inference and transfer learning of the model being carried out locally on the Raspberry Pi itself. The Raspberry Pi version was highly accurate at detecting known people, but was vulnerable to the open set recognition issue.  
+I originally developed the facial recognition part of this project in 2016. The project then was built on a [Raspberry Pi](https://iot.techbubbletechnologies.com/videos/tass-techbubble-autonomous-sight-system-videos/video/tass-inception-v3-transfer-learning-raspberry-pi "Raspberry Pi") and included inference and transfer learning of the model being carried out locally on the Raspberry Pi itself. The Raspberry Pi version was highly accurate at detecting known people, but was vulnerable to the open set recognition issue.  
 
 ## Transfer Learning
 
-Coming Soon!
+From [Tensorflow's](https://www.tensorflow.org/tutorials/image_retraining "Tensorflow's") documentation:
+
+"Modern object recognition models have millions of parameters and can take weeks to fully train. Transfer learning is a technique that shortcuts a lot of this work by taking a fully-trained model for a set of categories like ImageNet, and retrains from the existing weights for new classes. In this example we'll be retraining the final layer from scratch, while leaving all the others untouched. For more information on the approach you can see this paper on Decaf."
+
+Although this tutorial is based around usage on an NVIDIA GPU, [I originally built this project on a Raspberry Pi](https://iot.techbubbletechnologies.com/videos/tass-techbubble-autonomous-sight-system-videos/video/tass-inception-v3-transfer-learning-raspberry-pi "I originally built this project on a Raspberry Pi"), so training / inference on a CPU should not be an issue. 
 
 ## Open Set Recognition Issue
 
