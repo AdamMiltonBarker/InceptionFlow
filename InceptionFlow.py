@@ -31,7 +31,7 @@ class InceptionFlowCore():
 		self.Test=True
     		
 		self.confs = {}
-		self.threshold = 0.50
+		self.threshold = 0.05
 
 		self.InceptionFlow = InceptionFlow.InceptionFlow()
 		
@@ -147,8 +147,7 @@ while True:
 
 				savedFrame = InceptionFlowCore.InceptionFlow.saveImage(frame)
 				Object,Confidence = InceptionFlowCore.InceptionFlow.classifyObject(savedFrame)
-				
-				if Object and Confidence > InceptionFlowCore.threshold:
+				if Confidence > InceptionFlowCore.threshold:
 						
 					print("Object: "+str(Object))
 					print("Confidence: "+str(Confidence))

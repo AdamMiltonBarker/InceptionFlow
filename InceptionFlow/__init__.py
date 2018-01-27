@@ -162,8 +162,8 @@ class InceptionFlow():
             os.makedirs(timeDirectory)
 
         currentImage=timeDirectory+'/'+datetime.now().strftime('%M-%S')+'.jpg'
-
         print(currentImage)
+        print("")
         
         cv2.imwrite(currentImage, frame)
 
@@ -239,6 +239,7 @@ class InceptionFlow():
                 human_string = node_lookup.id_to_string(node_id)
                 score = predictions[node_id]
                 print('%s (score = %.5f)' % (human_string, score))
+            print('')
 
             human_string = node_lookup.id_to_string(top_k[0])
             score = predictions[top_k[0]]

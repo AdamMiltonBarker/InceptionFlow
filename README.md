@@ -8,6 +8,10 @@ The Inception v3 model is a deep convolutional neural network released by Google
 
 ![InceptionFlow IoT Computer Vision Using Inception V3](images/main/inception.png)  
 
+## InceptionFlow
+
+InceptionFlow is an object & facial recognition Python wrapper for the Tensorflow Imagenet example and integrates IoT connectivity using the TechBubble IoT JumpWay Python MQTT client.
+
 ## Object Recognition
 
 InceptionFlow object recognition is based on the latest version of Google's Imagenet classifier example: [classify_image.py](https://github.com/tensorflow/models/blob/master/tutorials/image/imagenet/classify_image.py "classify_image.py"). 
@@ -20,7 +24,15 @@ This tutorial will include:
 
 ## Facial Recognition
 
-COMING SOON! 
+I originally developed the facial recognition part of this project in 2016. The project then was built on a Raspberry Pi and included inference and transfer learning of the model being carried out locally on the Raspberry Pi itself. The Raspberry Pi version was highly accurate at detecting known people, but was vulnerable to the open set recognition issue.  
+
+## Transfer Learning
+
+Coming Soon!
+
+## Open Set Recognition Issue
+
+Coming Soon!
 
 ## Hardware Requirements
 
@@ -174,58 +186,88 @@ If the program identifies an object, it sends a notification to the IoT JumpWay.
 
 Related to the first row of output below.
 
-![Example Frame](images/frames/52-43.jpg) 
+![Example Frame](images/frames/32-15.jpg) 
 
 ### OUTPUT
 
 ```
-/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/19/52-37.jpg
+/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/20/32-15.jpg
 I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
 
 TOP PREDICTIONS:
-lampshade, lamp shade (score = 0.10121)
-table lamp (score = 0.08689)
-wardrobe, closet, press (score = 0.07889)
-crate (score = 0.06905)
-desk (score = 0.03535)
+crate (score = 0.16082)
+wardrobe, closet, press (score = 0.08356)
+table lamp (score = 0.07620)
+lampshade, lamp shade (score = 0.06619)
+desk (score = 0.05752)
 
-NOTHING IDENTIFIED
+Object: crate
+Confidence: 0.16081852
 
-/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/19/52-43.jpg
+Published to Device Sensors Channel
+Published: 2
+
+/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/20/32-21.jpg
 I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
 
 TOP PREDICTIONS:
-lampshade, lamp shade (score = 0.07227)
-wardrobe, closet, press (score = 0.06327)
-crate (score = 0.06044)
-table lamp (score = 0.05268)
-desk (score = 0.04516)
+crate (score = 0.26500)
+lampshade, lamp shade (score = 0.05366)
+table lamp (score = 0.03618)
+desk (score = 0.03610)
+wardrobe, closet, press (score = 0.03102)
 
-NOTHING IDENTIFIED
+Object: crate
+Confidence: 0.26500276
 
-/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/19/52-49.jpg
+Published to Device Sensors Channel
+Published: 3
+
+/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/20/32-27.jpg
 I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
 
 TOP PREDICTIONS:
-wardrobe, closet, press (score = 0.08488)
-crate (score = 0.08327)
-lampshade, lamp shade (score = 0.06808)
-table lamp (score = 0.06355)
-desk (score = 0.05461)
+crate (score = 0.22588)
+wardrobe, closet, press (score = 0.06275)
+dining table, board (score = 0.05320)
+lampshade, lamp shade (score = 0.04917)
+table lamp (score = 0.03575)
 
-NOTHING IDENTIFIED
+Object: crate
+Confidence: 0.22588398
 
-/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/19/52-54.jpg
+Published to Device Sensors Channel
+Published: 4
+
+/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/20/32-32.jpg
 I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
 
 TOP PREDICTIONS:
-wardrobe, closet, press (score = 0.07041)
-lampshade, lamp shade (score = 0.06747)
-crate (score = 0.06012)
-table lamp (score = 0.05550)
-safe (score = 0.04224)
+crate (score = 0.12352)
+table lamp (score = 0.10036)
+wardrobe, closet, press (score = 0.08558)
+lampshade, lamp shade (score = 0.06495)
+desk (score = 0.04919)
 
-NOTHING IDENTIFIED
+Object: crate
+Confidence: 0.12352495
+
+Published to Device Sensors Channel
+Published: 5
+
+/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/20/32-38.jpg
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
+
+TOP PREDICTIONS:
+table lamp (score = 0.11011)
+crate (score = 0.09420)
+lampshade, lamp shade (score = 0.08453)
+wardrobe, closet, press (score = 0.06316)
+desk (score = 0.04722)
+
+Object: table lamp
+Confidence: 0.11010705
+
 ```
 
 ## Viewing Your Data  
