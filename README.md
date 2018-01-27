@@ -298,7 +298,9 @@ Confidence: 0.11010705
 
 Create 1 or more folders in the model/training/Facial directory, these folders will represent classes, and there should be 1 folder / class (person), name the folder using something that will allow you identify who the photos are of, the name of the folder / class will be used by the program to let you know who it has detected. You can use names, user IDs or anything you like for the folder / class names, but bear in mind privacy. We have successfully tested with 30 training images per class, but your application may need more or less than this. You will need at least 2 classes to begin training.
 
-Update lines 24 - 31 of InceptionFlow.py to look like the following:
+## Training Your Neural Network
+
+Now you have added your training data, you should train your neural network. Update lines 24 - 31 of InceptionFlow.py to look like the following:
 
 ```   		
     #self.Mode =""
@@ -332,12 +334,6 @@ TRAINING COMPLETED
 ```
 
 Training is now complete.
-
-## Training Your Neural Network
-
-Now you have added your training data, you should train your neural network, navigate to the root of the project and execute the following command:
-
-    $ python TassTrain.py
 
 ## Viewing Your Data  
 
