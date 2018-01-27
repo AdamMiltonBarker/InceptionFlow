@@ -47,7 +47,7 @@ class InceptionFlowCore():
         
 			try:
     			
-				self.OpenCVCapture = cv2.VideoCapture(0)
+				self.OpenCVCapture = cv2.VideoCapture(self.confs["Cameras"][0]["URL"])
 
 			except Exception as e:
 				print("FAILED TO CONNECT TO WEBCAM")
@@ -62,7 +62,7 @@ class InceptionFlowCore():
         
 			try:
     			
-				self.OpenCVCapture = cv2.VideoCapture(0)
+				self.OpenCVCapture = cv2.VideoCapture(self.confs["Cameras"][0]["URL"])
 
 			except Exception as e:
 				print("FAILED TO CONNECT TO WEBCAM")

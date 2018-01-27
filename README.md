@@ -186,15 +186,29 @@ TESTING DEACTIVATED
 
 ## InceptionFlow Realtime Camera Object Recognition
 
-Once the testing stage has completed, Test will be set to false and the loop will continue onto the camera processing. On lines 46 and onwards in InceptionFlow.py, you see that the program connects to the primary webcam on your computer. Further on you will also be shown how to connect to a webcam. 
+Once the testing stage has completed, Test will be set to false and the loop will continue onto the camera processing. On lines 46 and onwards in InceptionFlow.py, you see that the program connects to the primary webcam on your computer. 
 
 In the main part of the script, now that Test has finished, the program checks what mode it is in. By default the program is set to ObjectLocal. The program continues to check the webcam feed for an object and processes them to guess what objects they are.
 
 If the program identifies an object, it sends a notification to the IoT JumpWay.
 
+### Using An IP Camera
+
+You can easily connect to an IP cam by changing the URL field in data/confs.json to the URL of your IP camera. If you are not using an IP camera you should leave it as 0.
+
+```
+	"Cameras": [
+		{
+			"ID": YourCameraID,
+			"URL": "YourIPCameraURL",
+			"Name": "YourCameraName"
+		}
+	]
+```
+
 ### EXAMPLE FRAME
 
- On my system, the quality from the camera is not amazing due to it being night time. The camera is detecting something, below you will see a frame from the camera and a selection of the output from the program from that frame onwards. The program clearly thinks that it has identified a crate and it also identifies a lamp, although there are two lamps in the frame I am interested to see the results tomorrow in the daylight. 
+ On my system, the quality from the camera is not amazing due to it being night time. Below you will see a frame from the camera and a selection of the output from the program from that frame onwards. The program clearly is able to identify the lamp and the chest, I am interested to see the results tomorrow in the daylight. 
 
 ![Example Frame](images/frames/32-15.jpg) 
 

@@ -11,6 +11,7 @@
 	"Cameras": [
 		{
 			"ID": YourCameraID,
+			"URL": 0,
 			"Name": "YourCameraName"
 		}
 	],
