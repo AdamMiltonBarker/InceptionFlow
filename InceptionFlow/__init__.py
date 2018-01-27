@@ -224,11 +224,12 @@ class InceptionFlow():
             
             top_k = predictions.argsort()[-NUM_TOP_PREDICTIONS:][::-1]
             
+            print('TOP PREDICTIONS:')
             for node_id in top_k:
                 
                 human_string = node_lookup.id_to_string(node_id)
                 score = predictions[node_id]
-                #print('%s (score = %.5f)' % (human_string, score))
+                print('%s (score = %.5f)' % (human_string, score))
 
             human_string = node_lookup.id_to_string(top_k[0])
             score = predictions[top_k[0]]

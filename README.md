@@ -61,7 +61,7 @@ Navigate to the root of the repo on you local machine and open InceptionFlow.py,
 
 To make it possible for this project to be able to communicate with the connected camera and all IoT devices you have connected to your IoT JumpWay location, you should create an application (A future tutorial will cover connecting to a local webcam and also multiple IP cams). Now follow the [TechBubble Technologies IoT JumpWay Developer Program (BETA) Location Application Doc](https://github.com/TechBubbleTechnologies/IoT-JumpWay-Docs/blob/master/5-Location-Applications.md "TechBubble Technologies IoT JumpWay Developer Program (BETA) Location Application Doc") to set up your IoT JumpWay Location Application.
 
-Below is the relevant configuration you need to add in data/confs.json. Update the SystemLocation, SystemApplicationID, SystemApplicationName, MQTTUsername and MQTTPassword with the details for the application you created above:
+Below is the relevant configuration you need to add in data/confs.json. Update the SystemLocation, SystemApplicationID, SystemApplicationName, Cameras ID & Name (Name Optional), MQTTUsername and MQTTPassword with the details for the application you created above:
 
 ```
 	"IoTJumpWaySettings": {
@@ -72,8 +72,14 @@ Below is the relevant configuration you need to add in data/confs.json. Update t
         "SystemDeviceID": YourDeviceID,
         "SystemDeviceName" : "YourDeviceName"
     },
-	"Sensors": {},
 	"Actuators": {},
+	"Cameras": [
+		{
+			"ID": YourCameraID,
+			"Name": "YourCameraName"
+		}
+	],
+	"Sensors": {},
 	"IoTJumpWayMQTTSettings": {
         "MQTTUsername": "YourMQTTUsername",
         "MQTTPassword": "YourMQTTPassword"
@@ -82,9 +88,9 @@ Below is the relevant configuration you need to add in data/confs.json. Update t
 
 ## Testing InceptionFlow Object Recognition
 
-The first excercise once you are set up is to test the default object recognition functionality. You will notice on line 22 of InceptionFlow.py, the variable self.Test is set to True, this means that the program is in testing mode. 
+The first excercise once you are set up is to test the default object recognition functionality. You will notice on line 31 of InceptionFlow.py, the variable self.Test is set to True, this means that the program is in testing mode. 
 
-On line 84 you will notice that once the program is initiated it loops continually checking if Test or Train are set to True, in this case we are interested in Test. As the program is currently in testing mode, this area is reached and the testing() function is called which loops through some random images and attempts to detect them. 
+On line 94 and onwards, you will notice that once the program is initiated it loops continually checking if Test or Train are set to True else then checks what mode the program is in for camera monitoring. In this case we are interested in Test. As the program is currently in testing mode, this area is reached and the testing() function is called which loops through some random images and attempts to detect them. 
 
 When you are in the root of the repo, issue the following command:
 
@@ -95,7 +101,15 @@ When you are in the root of the repo, issue the following command:
 On my machine, here is the outcome:
 
 ```
+FILE: house.jpg
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
 LOCATED MODEL LABELS
+TOP PREDICTIONS:
+boathouse (score = 0.43377)
+mobile home, manufactured home (score = 0.34660)
+Norfolk terrier (score = 0.00728)
+Airedale, Airedale terrier (score = 0.00597)
+lakeside, lakeshore (score = 0.00408)
 IMAGE: house.jpg
 OBJECT: boathouse
 Confidence: 0.4337674
@@ -103,6 +117,12 @@ Confidence: 0.4337674
 FILE: moon.jpg
 I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
 LOCATED MODEL LABELS
+TOP PREDICTIONS:
+bubble (score = 0.16346)
+saltshaker, salt shaker (score = 0.09212)
+tick (score = 0.05572)
+jellyfish (score = 0.04658)
+ladle (score = 0.01820)
 IMAGE: moon.jpg
 OBJECT: bubble
 Confidence: 0.16346219
@@ -110,21 +130,44 @@ Confidence: 0.16346219
 FILE: cropped_panda.jpg
 I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
 LOCATED MODEL LABELS
+TOP PREDICTIONS:
+giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca (score = 0.89107)
+indri, indris, Indri indri, Indri brevicaudatus (score = 0.00779)
+lesser panda, red panda, panda, bear cat, cat bear, Ailurus fulgens (score = 0.00296)
+custard apple (score = 0.00147)
+earthstar (score = 0.00117)
 IMAGE: cropped_panda.jpg
 OBJECT: giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca
-Confidence: 0.8910735
+Confidence: 0.89107335
 
 FILE: mars-rover.jpg
 I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
 LOCATED MODEL LABELS
+TOP PREDICTIONS:
+warplane, military plane (score = 0.53739)
+projectile, missile (score = 0.10449)
+missile (score = 0.05537)
+wing (score = 0.01747)
+cannon (score = 0.01235)
 IMAGE: mars-rover.jpg
 OBJECT: warplane, military plane
 Confidence: 0.5373875
 
-
 COMPLETING TESTING OBJECTS
 TESTING DEACTIVATED
 ```
+
+## InceptionFlow Realtime Camera Object Recognition
+
+Once the testing stage has completed, Test will be set to false and the loop will continue onto the camera processing. On lines 46 and onwards in InceptionFlow.py, you see that the program connects to the primary webcam on your computer. Further on you will also be shown how to connect to a webcam. 
+
+In the main part of the script, now that Test has finished, the program checks what mode it is in. By default the program is set to ObjectLocal. The program continues to check the webcam feed for an object and processes them to guess what objects they are.
+
+If the program identifies an object, it sends a notification to the IoT JumpWay.
+
+## Viewing Your Data  
+
+The data stored in the [TechBubble IoT JumpWay](https://iot.techbubbletechnologies.com/ "TechBubble IoT JumpWay") has come from a sensor, your camera.  Find your device in the in the [TechBubble IoT JumpWay Developers Area](https://iot.techbubbletechnologies.com/developers/dashboard/ "TechBubble IoT JumpWay Developers Area") and then visit the Sensors Data page to view the data sent from your device. As the communication has been sent from the InceptionFlow application, you will not see device status as the device did not actually connect to the JumpWay. 
 
 ## InceptionFlow Bugs & Issues
 

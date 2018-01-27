@@ -21,14 +21,14 @@ class InceptionFlowCore():
     	
 	def __init__(self):
     		
-		#self.Mode=""
-		self.Mode="ObjectCam"
-		#self.Mode="ObjectLocal"
-		#self.Mode="FacialCam"
-		#self.Mode="FacialLocal"
+		#self.Mode =""
+		self.Mode = "ObjectLocal"
+		#self.Mode = "ObjectCam"
+		#self.Mode = "FacialLocal"
+		#self.Mode = "FacialCam"
 
 		self.Train=False
-		self.Test=False
+		self.Test=True
     		
 		self.confs = {}
 		self.threshold = 0.75
@@ -42,7 +42,28 @@ class InceptionFlowCore():
 		self.startMQTT()
 		self.InceptionFlow.checkModelDownload()
 		self.InceptionFlow.createGraph()
-		self.OpenCVCapture = cv2.VideoCapture(0)
+		
+		if self.Mode == "ObjectLocal":
+        
+			try:
+    			
+				self.OpenCVCapture = cv2.VideoCapture(0)
+
+			except Exception as e:
+				print("FAILED TO CONNECT TO WEBCAM")
+				print(str(e))
+				sys.exit()
+		
+		elif self.Mode == "FacialLocal":
+        
+			try:
+    			
+				self.OpenCVCapture = cv2.VideoCapture(0)
+
+			except Exception as e:
+				print("FAILED TO CONNECT TO WEBCAM")
+				print(str(e))
+				sys.exit()
 		
 	def startMQTT(self):
         
@@ -100,13 +121,13 @@ while True:
 		if InceptionFlowCore.Mode == "ObjectCam" or InceptionFlowCore.Mode == "ObjectLocal":	
 		
 			InceptionFlowCore.objectTesting()
-			InceptionFlowCore.Test=False
+			#InceptionFlowCore.Test=False
 			
 			print("TESTING DEACTIVATED")
     		
 	else:
 		
-		if InceptionFlowCore.Mode == "ObjectCam":	
+		if InceptionFlowCore.Mode == "ObjectLocal":	
     	
 			try:
 				
@@ -129,21 +150,6 @@ while True:
 								"Sensor":"CCTV",
 								"SensorID": InceptionFlowCore.confs["Cameras"][0]["ID"],
 								"SensorValue":"OBJECT: " + str(Object) + " (Confidence: " + str(Confidence) + ")"
-							}
-						)
-						
-				else:
-
-					print("Object not recognised " + str(Object) + " Confidence "+str(Confidence))
-					
-					InceptionFlowCore.JumpWayMQTTClient.publishToDeviceChannel(
-							"Sensors",
-							InceptionFlowCore.confs["IoTJumpWaySettings"]["SystemZone"],
-							InceptionFlowCore.confs["IoTJumpWaySettings"]["SystemDeviceID"],
-							{
-								"Sensor":"CCTV",
-								"SensorID":InceptionFlowCore.confs["Cameras"][0]["ID"],
-								"SensorValue":"NOT RECOGNISED"
 							}
 						)
 
