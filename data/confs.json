@@ -1,17 +1,17 @@
 {
 	"IoTJumpWaySettings": {
-        "SystemLocation": YourLocationID,
-        "SystemApplicationID": YourApplicationID,
-        "SystemApplicationName" : "YourApplicationName",
-        "SystemZone": YourZoneID,
-        "SystemDeviceID": YourDeviceID,
-        "SystemDeviceName" : "YourDeviceName"
+        "SystemLocation": 1,
+        "SystemApplicationID": 55,
+        "SystemApplicationName" : "InceptionFlow",
+        "SystemZone": 1,
+        "SystemDeviceID": 83,
+        "SystemDeviceName" : "InceptionFlow"
     },
 	"Sensors": {},
 	"Actuators": {},
 	"IoTJumpWayMQTTSettings": {
-        "MQTTUsername": "YourMQTTUsername",
-        "MQTTPassword": "YourMQTTPassword"
+        "MQTTUsername": "dL7axN1Xtyz6",
+        "MQTTPassword": "&umZ?jghYah1qzppqgn5"
     },
 	"ClassifierSettings":{
 		"HAAR_FACES": "Haarcascades/haarcascade_frontalface_default.xml",

@@ -31,6 +31,7 @@ class InceptionFlowCore():
 			self.confs = json.loads(confs.read())
 			
 		self.startMQTT()
+		self.InceptionFlow.checkModelDownload()
 		self.InceptionFlow.createGraph("Object")
 		
 	def startMQTT(self):

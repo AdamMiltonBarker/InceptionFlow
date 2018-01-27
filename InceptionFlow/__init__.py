@@ -233,3 +233,33 @@ class InceptionFlow():
             human_string = node_lookup.id_to_string(top_k[0])
             score = predictions[top_k[0]]
             return human_string, score
+
+    def checkModelDownload(self):
+        
+        """Download and extract model tar file."""
+        
+        dest_directory = OBJECT_MODEL_DIR
+        
+        if not os.path.exists(dest_directory):
+            
+            os.makedirs(dest_directory)
+            
+        filename = OBJECT_MODEL.split('/')[-1]
+        filepath = os.path.join(dest_directory, filename)
+        
+        if not os.path.exists(filepath):
+            
+            def _progress(count, block_size, total_size):
+                
+                sys.stdout.write('\r>> Downloading %s %.1f%%' % (
+                    filename,
+                    float(count * block_size) / float(total_size) * 100.0))
+                    
+                sys.stdout.flush()
+
+            filepath, _ = urllib.request.urlretrieve(DATA_URL, filepath, _progress)
+            print()
+            statinfo = os.stat(filepath)
+            print('Successfully downloaded', filename, statinfo.st_size, 'bytes.')
+
+        tarfile.open(filepath, 'r:gz').extractall(dest_directory)

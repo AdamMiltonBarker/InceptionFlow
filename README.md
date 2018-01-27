@@ -64,18 +64,19 @@ To make it possible for this project to be able to communicate with the connecte
 Below is the relevant configuration you need to add in data/confs.json. Update the SystemLocation, SystemZone:
 
 ```
-
 	"IoTJumpWaySettings": {
-        "SystemLocation": 1,
-        "SystemZone": 1,
-        "SystemDeviceID": 83,
-        "SystemDeviceName" : "InceptionFlow"
+        "SystemLocation": YourLocationID,
+        "SystemApplicationID": YourApplicationID,
+        "SystemApplicationName" : "YourApplicationName",
+        "SystemZone": YourZoneID,
+        "SystemDeviceID": YourDeviceID,
+        "SystemDeviceName" : "YourDeviceName"
     },
 	"Sensors": {},
 	"Actuators": {},
 	"IoTJumpWayMQTTSettings": {
-        "MQTTUsername": "I7QiNA61m8sK",
-        "MQTTPassword": "se*1MkStzzcepx^tevt8"
+        "MQTTUsername": "YourMQTTUsername",
+        "MQTTPassword": "YourMQTTPassword"
     }
 ```
 
