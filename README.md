@@ -61,7 +61,7 @@ Navigate to the root of the repo on you local machine and open InceptionFlow.py,
 
 To make it possible for this project to be able to communicate with the connected camera and all IoT devices you have connected to your IoT JumpWay location, you should create an application (A future tutorial will cover connecting to a local webcam and also multiple IP cams). Now follow the [TechBubble Technologies IoT JumpWay Developer Program (BETA) Location Application Doc](https://github.com/TechBubbleTechnologies/IoT-JumpWay-Docs/blob/master/5-Location-Applications.md "TechBubble Technologies IoT JumpWay Developer Program (BETA) Location Application Doc") to set up your IoT JumpWay Location Application.
 
-Below is the relevant configuration you need to add in data/confs.json. Update the SystemLocation, SystemZone:
+Below is the relevant configuration you need to add in data/confs.json. Update the SystemLocation, SystemApplicationID, SystemApplicationName, MQTTUsername and MQTTPassword with the details for the application you created above:
 
 ```
 	"IoTJumpWaySettings": {
