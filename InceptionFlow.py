@@ -31,7 +31,7 @@ class InceptionFlowCore():
 		self.Test=True
     		
 		self.confs = {}
-		self.threshold = 0.75
+		self.threshold = 0.50
 
 		self.InceptionFlow = InceptionFlow.InceptionFlow()
 		
@@ -54,6 +54,10 @@ class InceptionFlowCore():
 				print(str(e))
 				sys.exit()
 		
+		if self.Mode == "ObjectCam":
+        
+			pass
+		
 		elif self.Mode == "FacialLocal":
         
 			try:
@@ -64,6 +68,10 @@ class InceptionFlowCore():
 				print("FAILED TO CONNECT TO WEBCAM")
 				print(str(e))
 				sys.exit()
+		
+		if self.Mode == "FacialCam":
+        
+			pass
 		
 	def startMQTT(self):
         
@@ -100,13 +108,15 @@ class InceptionFlowCore():
 				
 				if label:
 					
-					print("IMAGE: "+file)
-					print("OBJECT: "+str(label))
-					print("Confidence: "+str(confidence))
+					print("")
+					print("PROVIDED IMAGE: "+file)
+					print("OBJECT DETECTED: "+str(label))
+					print("CONFIDENCE: "+str(confidence))
+					print("...")
 					print("")
 
-		print("")
 		print("COMPLETING TESTING OBJECTS")
+		print("")
 		
 InceptionFlowCore = InceptionFlowCore()
 
@@ -121,9 +131,10 @@ while True:
 		if InceptionFlowCore.Mode == "ObjectCam" or InceptionFlowCore.Mode == "ObjectLocal":	
 		
 			InceptionFlowCore.objectTesting()
-			#InceptionFlowCore.Test=False
+			InceptionFlowCore.Test=False
 			
 			print("TESTING DEACTIVATED")
+			print("")
     		
 	else:
 		
@@ -141,6 +152,7 @@ while True:
 						
 					print("Object: "+str(Object))
 					print("Confidence: "+str(Confidence))
+					print("")
 					
 					InceptionFlowCore.JumpWayMQTTClient.publishToDeviceChannel(
 							"Sensors",
@@ -152,11 +164,29 @@ while True:
 								"SensorValue":"OBJECT: " + str(Object) + " (Confidence: " + str(Confidence) + ")"
 							}
 						)
+					
+				else:
+					
+					print("")
+					print("NOTHING IDENTIFIED")
+					print("")
 
-				time.sleep(1)
+				time.sleep(5)
 			
 			except cv2.error as e:
-				print(e)       
+				print(e)     
+    		
+		elif InceptionFlowCore.Mode == "ObjectCam":
+    			
+				pass 
+
+		elif InceptionFlowCore.Mode == "FacialLocal":
+    			
+				pass 
+					
+		elif InceptionFlowCore.Mode == "FacialCam":	
+    			
+				pass
 
 InceptionFlowCore.OpenCVCapture.release()
 cv2.destroyAllWindows()

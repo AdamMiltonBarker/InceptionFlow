@@ -102,59 +102,64 @@ On my machine, here is the outcome:
 
 ```
 FILE: house.jpg
-I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
-LOCATED MODEL LABELS
 TOP PREDICTIONS:
 boathouse (score = 0.43377)
 mobile home, manufactured home (score = 0.34660)
 Norfolk terrier (score = 0.00728)
 Airedale, Airedale terrier (score = 0.00597)
 lakeside, lakeshore (score = 0.00408)
-IMAGE: house.jpg
-OBJECT: boathouse
-Confidence: 0.4337674
+
+PROVIDED IMAGE: house.jpg
+OBJECT DETECTED: boathouse
+CONFIDENCE: 0.4337674
+...
 
 FILE: moon.jpg
 I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
-LOCATED MODEL LABELS
 TOP PREDICTIONS:
 bubble (score = 0.16346)
 saltshaker, salt shaker (score = 0.09212)
 tick (score = 0.05572)
 jellyfish (score = 0.04658)
 ladle (score = 0.01820)
-IMAGE: moon.jpg
-OBJECT: bubble
-Confidence: 0.16346219
+
+PROVIDED IMAGE: moon.jpg
+OBJECT DETECTED: bubble
+CONFIDENCE: 0.16346219
+...
 
 FILE: cropped_panda.jpg
 I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
-LOCATED MODEL LABELS
 TOP PREDICTIONS:
 giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca (score = 0.89107)
 indri, indris, Indri indri, Indri brevicaudatus (score = 0.00779)
 lesser panda, red panda, panda, bear cat, cat bear, Ailurus fulgens (score = 0.00296)
 custard apple (score = 0.00147)
 earthstar (score = 0.00117)
-IMAGE: cropped_panda.jpg
-OBJECT: giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca
-Confidence: 0.89107335
+
+PROVIDED IMAGE: cropped_panda.jpg
+OBJECT DETECTED: giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca
+CONFIDENCE: 0.89107335
+...
 
 FILE: mars-rover.jpg
 I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
-LOCATED MODEL LABELS
 TOP PREDICTIONS:
 warplane, military plane (score = 0.53739)
 projectile, missile (score = 0.10449)
 missile (score = 0.05537)
 wing (score = 0.01747)
 cannon (score = 0.01235)
-IMAGE: mars-rover.jpg
-OBJECT: warplane, military plane
-Confidence: 0.5373875
+
+PROVIDED IMAGE: mars-rover.jpg
+OBJECT DETECTED: warplane, military plane
+CONFIDENCE: 0.5373875
+...
 
 COMPLETING TESTING OBJECTS
+
 TESTING DEACTIVATED
+
 ```
 
 ## InceptionFlow Realtime Camera Object Recognition
@@ -163,7 +168,65 @@ Once the testing stage has completed, Test will be set to false and the loop wil
 
 In the main part of the script, now that Test has finished, the program checks what mode it is in. By default the program is set to ObjectLocal. The program continues to check the webcam feed for an object and processes them to guess what objects they are.
 
-If the program identifies an object, it sends a notification to the IoT JumpWay.
+If the program identifies an object, it sends a notification to the IoT JumpWay. On my system, the camera is detecting something, but due to the changeable threshold, it is not classed as an identification. Below you will see an frame from my camera and the output.
+
+### EXAMPLE FRAME
+
+Related to the first row of output below.
+
+![Example Frame](images/frames/52-43.jpg) 
+
+### OUTPUT
+
+```
+/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/19/52-37.jpg
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
+
+TOP PREDICTIONS:
+lampshade, lamp shade (score = 0.10121)
+table lamp (score = 0.08689)
+wardrobe, closet, press (score = 0.07889)
+crate (score = 0.06905)
+desk (score = 0.03535)
+
+NOTHING IDENTIFIED
+
+/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/19/52-43.jpg
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
+
+TOP PREDICTIONS:
+lampshade, lamp shade (score = 0.07227)
+wardrobe, closet, press (score = 0.06327)
+crate (score = 0.06044)
+table lamp (score = 0.05268)
+desk (score = 0.04516)
+
+NOTHING IDENTIFIED
+
+/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/19/52-49.jpg
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
+
+TOP PREDICTIONS:
+wardrobe, closet, press (score = 0.08488)
+crate (score = 0.08327)
+lampshade, lamp shade (score = 0.06808)
+table lamp (score = 0.06355)
+desk (score = 0.05461)
+
+NOTHING IDENTIFIED
+
+/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/19/52-54.jpg
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
+
+TOP PREDICTIONS:
+wardrobe, closet, press (score = 0.07041)
+lampshade, lamp shade (score = 0.06747)
+crate (score = 0.06012)
+table lamp (score = 0.05550)
+safe (score = 0.04224)
+
+NOTHING IDENTIFIED
+```
 
 ## Viewing Your Data  
 

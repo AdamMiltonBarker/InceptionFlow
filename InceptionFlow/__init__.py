@@ -31,12 +31,12 @@ import sys
 import tarfile
 import json
 
+from datetime import datetime
+
 import numpy as np
 from six.moves import urllib
 import tensorflow as tf
 import cv2
-
-FLAGS = None
         
 OBJECT_MODEL = 'http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz' 
 OBJECT_MODEL_DIR = os.getcwd()+"/model/imagenet"   
@@ -91,7 +91,7 @@ class NodeLookup(object):
             tf.logging.fatal('File does not exist %s', label_lookup_path)
             print('File does not exist %s', label_lookup_path)
 
-        print('LOCATED MODEL LABELS')
+        #print('LOCATED MODEL LABELS')
             
         # Loads mapping from string UID to human-readable string
             
@@ -156,7 +156,15 @@ class InceptionFlow():
             
     def saveImage(self,frame):
         
-        currentImage = os.getcwd()+"/current.jpg";
+        timeDirectory = os.path.dirname(os.path.abspath(__file__))+"/images/"+datetime.now().strftime('%Y-%m-%d')+'/'+datetime.now().strftime('%H')
+        
+        if not os.path.exists(timeDirectory):
+            os.makedirs(timeDirectory)
+
+        currentImage=timeDirectory+'/'+datetime.now().strftime('%M-%S')+'.jpg'
+
+        print(currentImage)
+        
         cv2.imwrite(currentImage, frame)
 
         return currentImage
@@ -224,6 +232,7 @@ class InceptionFlow():
             
             top_k = predictions.argsort()[-NUM_TOP_PREDICTIONS:][::-1]
             
+            print('')
             print('TOP PREDICTIONS:')
             for node_id in top_k:
                 
