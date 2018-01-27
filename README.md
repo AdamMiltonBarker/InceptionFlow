@@ -2,7 +2,7 @@
 
 ![InceptionFlow IoT Computer Vision Using Inception V3](images/main/InceptionFlow.png)  
 
-##Inception V3
+## Inception V3
 
 The Inception v3 model is a deep convolutional neural network released by Google, which has been pre-trained for the ImageNet Large Visual Recognition Challenge using data from 2012, and it can differentiate between 1,000 different classes, like “cat”, “dishwasher” or “plane”. The paper regarding Inception V3 is described in Google's Arxiv preprint ["Rethinking the Inception Architecture for Computer Vision”](https://arxiv.org/abs/1512.00567 "Rethinking the Inception Architecture for Computer Vision").
 
@@ -14,9 +14,9 @@ InceptionFlow object recognition is based on the latest version of Google's Imag
 
 This tutorial will include:
 
-    - Testing InceptionFlow Object Recognition: Looping through local folder of random objects.
-    - Connecting to a local webcam.
-    - Communicating with other devices and applications via the IoT JumpWay.  
+- Testing InceptionFlow Object Recognition: Looping through local folder of random objects.
+- Connecting to a local webcam.
+- Communicating with other devices and applications via the IoT JumpWay.  
 
 ## Facial Recognition
 
@@ -43,13 +43,17 @@ There are a few tutorials that you should follow before beginning, especially if
 - Make sure you have [Tensorflow](https://www.tensorflow.org/install/"Tensorflow") installed, the latest version should work.
 - Install InceptionFlow
 
+```
     $ pip/pip3 install InceptionFlow
+```
 
 ## Cloning The Repo
 
 You will need to clone this repository to a location on your computer. Navigate to the directory you would like to download it to and issue the following command.
 
+```
     $ git clone https://github.com/AdamMiltonBarker/InceptionFlow.git
+```
 
 Navigate to the root of the repo on you local machine and open InceptionFlow.py, this is the example program provided to get you started.
 
@@ -59,7 +63,7 @@ To make it possible for this project to be able to communicate with the connecte
 
 Below is the relevant configuration you need to add in data/confs.json. Update the SystemLocation, SystemZone:
 
-'''
+```
 
 	"IoTJumpWaySettings": {
         "SystemLocation": 1,
@@ -73,8 +77,7 @@ Below is the relevant configuration you need to add in data/confs.json. Update t
         "MQTTUsername": "I7QiNA61m8sK",
         "MQTTPassword": "se*1MkStzzcepx^tevt8"
     }
-
-'''
+```
 
 ## Testing InceptionFlow Object Recognition
 
@@ -84,11 +87,13 @@ On line 84 you will notice that once the program is initiated it loops continual
 
 When you are in the root of the repo, issue the following command:
 
+```
     $ python InceptionFlow.py
+```
 
 On my machine, here is the outcome:
 
-''' 
+```
 LOCATED MODEL LABELS
 IMAGE: house.jpg
 OBJECT: boathouse
@@ -118,8 +123,7 @@ Confidence: 0.5373875
 
 COMPLETING TESTING OBJECTS
 TESTING DEACTIVATED
-'''
-
+```
 
 ## InceptionFlow Bugs & Issues
 
