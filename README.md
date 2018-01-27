@@ -180,11 +180,11 @@ Once the testing stage has completed, Test will be set to false and the loop wil
 
 In the main part of the script, now that Test has finished, the program checks what mode it is in. By default the program is set to ObjectLocal. The program continues to check the webcam feed for an object and processes them to guess what objects they are.
 
-If the program identifies an object, it sends a notification to the IoT JumpWay. On my system, the camera is detecting something, but due to the changeable threshold, it is not classed as an identification. Below you will see an frame from my camera and the output.
+If the program identifies an object, it sends a notification to the IoT JumpWay.
 
 ### EXAMPLE FRAME
 
-Related to the first row of output below.
+ On my system, the quality from the camera is not amazing due to it being night time. The camera is detecting something, below you will see a frame from the camera and a selection of the output from the program from that frame onwards. The program clearly thinks that it has identified a crate and it also identifies a lamp, although there are two lamps in the frame I am interested to see the results tomorrow in the daylight. 
 
 ![Example Frame](images/frames/32-15.jpg) 
 
