@@ -194,7 +194,7 @@ If the program identifies an object, it sends a notification to the IoT JumpWay.
 
 ### Using An IP Camera
 
-You can easily connect to an IP cam by changing the URL field in data/confs.json to the URL of your IP camera. If you are not using an IP camera you should leave it as 0.
+You can easily connect to an IP cam by changing the URL field in data/confs.json to the URL of your IP camera. If you are not using an IP camera you should leave it as 0 (zero).
 
 ```
 	"Cameras": [
@@ -293,6 +293,51 @@ Object: table lamp
 Confidence: 0.11010705
 
 ```
+
+## Preparing Training Data For Your Neural Network
+
+Create 1 or more folders in the model/training/Facial directory, these folders will represent classes, and there should be 1 folder / class (person), name the folder using something that will allow you identify who the photos are of, the name of the folder / class will be used by the program to let you know who it has detected. You can use names, user IDs or anything you like for the folder / class names, but bear in mind privacy. We have successfully tested with 30 training images per class, but your application may need more or less than this. You will need at least 2 classes to begin training.
+
+Update lines 24 - 31 of InceptionFlow.py to look like the following:
+
+```   		
+    #self.Mode =""
+    #self.Mode = "ObjectLocal"
+    #self.Mode = "ObjectCam"
+    self.Mode = "FacialLocal"
+    #self.Mode = "FacialCam"
+
+    self.Train=True
+    self.Test=False
+```
+
+Then execute the program to begin training:
+
+```
+    $ python InceptionFlow.py
+```
+
+Once the training completes, you should see output like the following:
+
+```
+2018-01-27 23:16:21.275019: Step 3998: Train accuracy = 100.0%
+2018-01-27 23:16:21.275502: Step 3998: Cross entropy = 0.001254
+2018-01-27 23:16:21.353860: Step 3998: Validation accuracy = 100.0%
+2018-01-27 23:16:21.444547: Step 3999: Train accuracy = 100.0%
+2018-01-27 23:16:21.444646: Step 3999: Cross entropy = 0.001331
+2018-01-27 23:16:21.523840: Step 3999: Validation accuracy = 100.0%
+Final test accuracy = 100.0%
+Converted 2 variables to const ops.
+TRAINING COMPLETED
+```
+
+Training is now complete.
+
+## Training Your Neural Network
+
+Now you have added your training data, you should train your neural network, navigate to the root of the project and execute the following command:
+
+    $ python TassTrain.py
 
 ## Viewing Your Data  
 

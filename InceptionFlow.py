@@ -22,13 +22,13 @@ class InceptionFlowCore():
 	def __init__(self):
     		
 		#self.Mode =""
-		self.Mode = "ObjectLocal"
+		#self.Mode = "ObjectLocal"
 		#self.Mode = "ObjectCam"
-		#self.Mode = "FacialLocal"
+		self.Mode = "FacialLocal"
 		#self.Mode = "FacialCam"
 
-		self.Train=False
-		self.Test=True
+		self.Train=True
+		self.Test=False
     		
 		self.confs = {}
 		self.threshold = 0.05
@@ -41,10 +41,10 @@ class InceptionFlowCore():
 			
 		self.startMQTT()
 		self.InceptionFlow.checkModelDownload()
-		self.InceptionFlow.createGraph()
+		self.InceptionFlow.createGraph(self.Mode)
 		
 		if self.Mode == "ObjectLocal":
-        
+
 			try:
     			
 				self.OpenCVCapture = cv2.VideoCapture(self.confs["Cameras"][0]["URL"])
@@ -124,7 +124,11 @@ while True:
     	
 	if InceptionFlowCore.Train==True:
     		
-		pass
+		InceptionFlowCore.InceptionFlow.trainModel()
+		InceptionFlowCore.Train=False
+		
+		print("TRAINING COMPLETED")
+		print("")
     		
 	elif InceptionFlowCore.Test==True:
     		
