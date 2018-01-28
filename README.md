@@ -10,29 +10,24 @@ The Inception v3 model is a deep convolutional neural network released by Google
 
 ## InceptionFlow
 
-InceptionFlow is an object & facial recognition Python wrapper for the Tensorflow Imagenet example and integrates IoT connectivity using the TechBubble IoT JumpWay Python MQTT client.
+InceptionFlow is an object & facial recognition Python wrapper for the Tensorflow Imagenet (Inception V3) example and integrates IoT connectivity using the TechBubble IoT JumpWay Python MQTT client.
 
 ## Object Recognition
 
 InceptionFlow object recognition is based on the latest version of Google's Imagenet classifier example: [classify_image.py](https://github.com/tensorflow/models/blob/master/tutorials/image/imagenet/classify_image.py "classify_image.py"). 
 
-This tutorial will include:
+## Included In This Tutorial
 
-- Testing InceptionFlow Object Recognition: Looping through local folder of random objects.
+- Testing InceptionFlow Object & Facial Recognition: Looping through a local folder of random objects.
 - Connecting to a local webcam.
-- Communicating with other devices and applications via the IoT JumpWay.  
+- Connecting to an IP webcam.
+- Processing the live streams for Object & Facial Recognition.
+- Communicating with other devices and applications via the IoT JumpWay. 
+- Facing The Open Set Recognition Issue.  
 
 ## Facial Recognition
 
-I originally developed the facial recognition part of this project in 2016. The project then was built on a [Raspberry Pi](https://iot.techbubbletechnologies.com/videos/tass-techbubble-autonomous-sight-system-videos/video/tass-inception-v3-transfer-learning-raspberry-pi "Raspberry Pi") and included inference and transfer learning of the model being carried out locally on the Raspberry Pi itself. The Raspberry Pi version was highly accurate at detecting known people, but was vulnerable to the open set recognition issue.  
-
-## Transfer Learning
-
-From [Tensorflow's](https://www.tensorflow.org/tutorials/image_retraining "Tensorflow's") documentation:
-
-"Modern object recognition models have millions of parameters and can take weeks to fully train. Transfer learning is a technique that shortcuts a lot of this work by taking a fully-trained model for a set of categories like ImageNet, and retrains from the existing weights for new classes. In this example we'll be retraining the final layer from scratch, while leaving all the others untouched. For more information on the approach you can see this paper on Decaf."
-
-Although this tutorial is based around usage on an NVIDIA GPU, [I originally built this project on a Raspberry Pi](https://iot.techbubbletechnologies.com/videos/tass-techbubble-autonomous-sight-system-videos/video/tass-inception-v3-transfer-learning-raspberry-pi "I originally built this project on a Raspberry Pi"), so training / inference on a CPU should not be an issue. 
+The foundations of this project were in 2016. The project then was originally built on a [Raspberry Pi](https://iot.techbubbletechnologies.com/videos/tass-techbubble-autonomous-sight-system-videos/video/tass-inception-v3-transfer-learning-raspberry-pi "Raspberry Pi") and included inference and transfer learning being carried out locally on the Raspberry Pi locally. The Raspberry Pi version was highly accurate at detecting known people, but was vulnerable to the open set recognition issue.  
 
 ## Open Set Recognition Issue
 
@@ -44,6 +39,26 @@ Taken from [Walter J. Scheirer's website](https://www.wjscheirer.com/projects/op
 
 The general term recognition suggests that the representation can handle different patterns often defined by discriminating features. It also suggests that the patterns to be recognized will be in general settings, visually mixed with many classes. For some problems, however, we do not need, and often cannot have, knowledge of the entire set of possible classes. For instance, in a recognition application for biologists, a single species of fish might be of interest. However, the classifier must consider the set of all other possible objects in relevant settings as potential negatives. Similarly, verification problems for security-oriented face matching constrain the target of interest to a single claimed identity, while considering the set of all other possible people as potential impostors. In addressing general object recognition, there is a finite set of known objects in myriad unknown objects, combinations and configurations - labeling something new, novel or unknown should always be a valid outcome. This leads to what is sometimes called "open set" recognition, in comparison to systems that make closed world assumptions or use "closed set" evaluation."
 
+Both the Object & Facial recognition features of InceptionFlow are vulnerable to the Open Set Recognition issue, however it appears that object recognition is more realistic with its confidence than facial recognition is and it may be possible to fine tune the network / training data for facial recognition to attempt to improve this.
+
+## Transfer Learning
+
+From [Tensorflow's](https://www.tensorflow.org/tutorials/image_retraining "Tensorflow's") documentation:
+
+"Modern object recognition models have millions of parameters and can take weeks to fully train. Transfer learning is a technique that shortcuts a lot of this work by taking a fully-trained model for a set of categories like ImageNet, and retrains from the existing weights for new classes. In this example we'll be retraining the final layer from scratch, while leaving all the others untouched. For more information on the approach you can see this paper on Decaf."
+
+Although this tutorial is based around usage on an NVIDIA GPU, [I originally built this project on a Raspberry Pi](https://iot.techbubbletechnologies.com/videos/tass-techbubble-autonomous-sight-system-videos/video/tass-inception-v3-transfer-learning-raspberry-pi "I originally built this project on a Raspberry Pi"), so training / inference on a CPU should not be an issue. 
+
+InceptionFlow uses transfer learning to retrain the final layer using classes, or categories, of images. This feature of the program is labelled as facial recognition throughout this tutorial, but you can actually train the network with any classes of images. 
+
+## OS Requirements
+
+This project has been tested in Windows 10 and Linux
+
+## Python Requirements
+
+This project has been tested in Python 3.5.4
+
 ## Hardware Requirements
 
 1. NVIDIA GEFORCE GTX (Suggested for Tensorflow with GPU, tested on 750ti)
@@ -52,9 +67,10 @@ I originally created this project on a Raspberry Pi 3 so it is definitely possib
 
 ## Software requirements
 
-1. [Tensorflow](https://www.tensorflow.org/install/"Tensorflow")
-2. [AdamMiltonBarker InceptionFlow](https://github.com/AdamMiltonBarker/InceptionFlow "AdamMiltonBarker InceptionFlow")
-3. [TechBubbleTechnologies IoT-JumpWay-Python-MQTT-Clients](https://github.com/TechBubbleTechnologies/IoT-JumpWay-Python-MQTT-Clients "TechBubbleTechnologies IoT-JumpWay-Python-MQTT-Clients") (Installed with InceptionFlow)
+1. [Tensorflow](https://www.tensorflow.org/install/ "Tensorflow")
+2. [OpenCV](https://opencv.org/ "OpenCV")
+3. [AdamMiltonBarker InceptionFlow](https://github.com/AdamMiltonBarker/InceptionFlow "AdamMiltonBarker InceptionFlow")
+4. [TechBubbleTechnologies IoT-JumpWay-Python-MQTT-Clients](https://github.com/TechBubbleTechnologies/IoT-JumpWay-Python-MQTT-Clients "TechBubbleTechnologies IoT-JumpWay-Python-MQTT-Clients") (Installed with InceptionFlow)
 
 ## Before You Begin
 
@@ -62,7 +78,8 @@ There are a few tutorials that you should follow before beginning, especially if
 
 ## Installation
 
-- Make sure you have [Tensorflow](https://www.tensorflow.org/install/"Tensorflow") installed, the latest version should work.
+- Make sure you have [Tensorflow](https://www.tensorflow.org/install/"Tensorflow").
+- Make sure you have [OpenCV](https://opencv.org/ "OpenCV").
 - Install InceptionFlow
 
 ```
@@ -83,36 +100,56 @@ Navigate to the root of the repo on you local machine and open InceptionFlow.py,
 
 To make it possible for this project to be able to communicate with the connected camera and all IoT devices you have connected to your IoT JumpWay location, you should create an application (A future tutorial will cover connecting to a local webcam and also multiple IP cams). Now follow the [TechBubble Technologies IoT JumpWay Developer Program (BETA) Location Application Doc](https://github.com/TechBubbleTechnologies/IoT-JumpWay-Docs/blob/master/5-Location-Applications.md "TechBubble Technologies IoT JumpWay Developer Program (BETA) Location Application Doc") to set up your IoT JumpWay Location Application.
 
-Below is the relevant configuration you need to add in data/confs.json. Update the SystemLocation, SystemApplicationID, SystemApplicationName, Cameras ID & Name (Name Optional), MQTTUsername and MQTTPassword with the details for the application you created above:
+Below is the relevant configuration you need to add in data/confs.json. Update the SystemLocation, SystemApplicationID, SystemApplicationName, Cameras ID & Name (Name Optional), MQTTUsername and MQTTPassword with the details for the application you created above. Notice ClassifierSettings->MODE is set to ObjectTest, this means when the program starts it will boot into object testing mode, looping through each image in the model/testing/Objects folder.
 
 ```
-	"IoTJumpWaySettings": {
-        "SystemLocation": YourLocationID,
-        "SystemApplicationID": YourApplicationID,
-        "SystemApplicationName" : "YourApplicationName",
-        "SystemZone": YourZoneID,
-        "SystemDeviceID": YourDeviceID,
-        "SystemDeviceName" : "YourDeviceName"
-    },
-	"Actuators": {},
-	"Cameras": [
-		{
-			"ID": YourCameraID,
-			"Name": "YourCameraName"
-		}
-	],
-	"Sensors": {},
-	"IoTJumpWayMQTTSettings": {
-        "MQTTUsername": "YourMQTTUsername",
-        "MQTTPassword": "YourMQTTPassword"
+    {
+        "IoTJumpWaySettings": {
+            "SystemLocation": YourLocationID,
+            "SystemApplicationID": YourApplicationID,
+            "SystemApplicationName" : "YourApplicationName",
+            "SystemZone": YourZoneID,
+            "SystemDeviceID": YourDeviceID,
+            "SystemDeviceName" : "YourDeviceName"
+        },
+        "Actuators": {},
+        "Cameras": [
+            {
+                "ID": YourCameraID,
+                "URL": 0,
+                "Name": "YourCameraName"
+            }
+        ],
+        "Sensors": {},
+        "IoTJumpWayMQTTSettings": {
+            "MQTTUsername": "YourMQTTUsername",
+            "MQTTPassword": "YourMQTTPassword"
+        },
+        "ClassifierSettings":{
+            "MODE":"ObjectTest",
+            "INCEPTION_SIZE":299,  
+            "OBJECT_THRESHOLD": 0.5,
+            "FACIAL_THRESHOLD": 0.9965,
+            "HAAR_SCALE_FACTOR": 1.3,
+            "HAAR_MIN_NEIGHBORS":4,
+            "HAAR_FACES": "Haarcascades/haarcascade_frontalface_default.xml",
+            "HAAR_FACES": "Haarcascades/haarcascade_frontalface_default.xml",
+            "HAAR_FACES2": "Haarcascades/haarcascade_frontalface_alt.xml",
+            "HAAR_FACES3": "Haarcascades/haarcascade_frontalface_alt2.xml",
+            "HAAR_PROFILES": "Haarcascades/haarcascade_profileface.xml",
+            "HAAR_SMILE": "Haarcascades/haarcascade_smile.xml",
+            "HAAR_EYE": "Haarcascades/haarcascade_eye.xml",
+            "height":112,
+            "width": 92
+        }
     }
 ```
 
 ## Testing InceptionFlow Object Recognition
 
-The first excercise once you are set up is to test the default object recognition functionality. You will notice on line 31 of InceptionFlow.py, the variable self.Test is set to True, this means that the program is in testing mode. 
+The first excercise once you are set up is to test the default object recognition functionality.
 
-On line 94 and onwards, you will notice that once the program is initiated it loops continually checking if Test or Train are set to True else then checks what mode the program is in for camera monitoring. In this case we are interested in Test. As the program is currently in testing mode, this area is reached and the testing() function is called which loops through some random images and attempts to detect them. 
+On line 144 of InceptionFlow.py and onwards, you will notice that once the program is initiated it loops continually checking what mode the program is in. In this case we are in ObjectTest so we hit line 154 which initiates objectTesting. 
 
 When you are in the root of the repo, issue the following command:
 
@@ -120,24 +157,54 @@ When you are in the root of the repo, issue the following command:
     $ python InceptionFlow.py
 ```
 
-On my machine, here is the outcome:
+With a threshold of 0.5 running on Tensorflow CPU on Windows, the following identifications were made.
 
 ```
-FILE: house.jpg
-TOP PREDICTIONS:
-boathouse (score = 0.43377)
-mobile home, manufactured home (score = 0.34660)
-Norfolk terrier (score = 0.00728)
-Airedale, Airedale terrier (score = 0.00597)
-lakeside, lakeshore (score = 0.00408)
+TESTING OBJECTS
 
-PROVIDED IMAGE: house.jpg
-OBJECT DETECTED: boathouse
-CONFIDENCE: 0.4337674
+FILE: cropped_panda.jpg
+
+TOP PREDICTIONS:
+giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca (score = 0.89632)
+indri, indris, Indri indri, Indri brevicaudatus (score = 0.00766)
+lesser panda, red panda, panda, bear cat, cat bear, Ailurus fulgens (score = 0.00266)
+custard apple (score = 0.00138)
+earthstar (score = 0.00104)
+
+
+^^^IDENTIFIED^^^
+PROVIDED IMAGE: cropped_panda.jpg
+OBJECT DETECTED: giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca
+CONFIDENCE: 0.8963184
+...
+
+FILE: house.jpg
+
+TOP PREDICTIONS:
+mobile home, manufactured home (score = 0.41764)
+boathouse (score = 0.36377)
+Norfolk terrier (score = 0.00815)
+Airedale, Airedale terrier (score = 0.00674)
+lakeside, lakeshore (score = 0.00337)
+
+FILE: mars-rover.jpg
+
+TOP PREDICTIONS:
+warplane, military plane (score = 0.60562)
+projectile, missile (score = 0.10552)
+missile (score = 0.05302)
+wing (score = 0.01513)
+cannon (score = 0.00897)
+
+
+^^^IDENTIFIED^^^
+PROVIDED IMAGE: mars-rover.jpg
+OBJECT DETECTED: warplane, military plane
+CONFIDENCE: 0.605617
 ...
 
 FILE: moon.jpg
-I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
+
 TOP PREDICTIONS:
 bubble (score = 0.16346)
 saltshaker, salt shaker (score = 0.09212)
@@ -145,37 +212,8 @@ tick (score = 0.05572)
 jellyfish (score = 0.04658)
 ladle (score = 0.01820)
 
-PROVIDED IMAGE: moon.jpg
-OBJECT DETECTED: bubble
-CONFIDENCE: 0.16346219
-...
-
-FILE: cropped_panda.jpg
-I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
-TOP PREDICTIONS:
-giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca (score = 0.89107)
-indri, indris, Indri indri, Indri brevicaudatus (score = 0.00779)
-lesser panda, red panda, panda, bear cat, cat bear, Ailurus fulgens (score = 0.00296)
-custard apple (score = 0.00147)
-earthstar (score = 0.00117)
-
-PROVIDED IMAGE: cropped_panda.jpg
-OBJECT DETECTED: giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca
-CONFIDENCE: 0.89107335
-...
-
-FILE: mars-rover.jpg
-I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
-TOP PREDICTIONS:
-warplane, military plane (score = 0.53739)
-projectile, missile (score = 0.10449)
-missile (score = 0.05537)
-wing (score = 0.01747)
-cannon (score = 0.01235)
-
-PROVIDED IMAGE: mars-rover.jpg
-OBJECT DETECTED: warplane, military plane
-CONFIDENCE: 0.5373875
+COMPLETED TESTING OBJECTS
+2 IDENTIFIED OBJECTS
 ...
 
 COMPLETING TESTING OBJECTS
@@ -184,11 +222,13 @@ TESTING DEACTIVATED
 
 ```
 
+As mentioned previously, with object detection the confidences are more realistic so with a good threshold it is fairly accurate.
+
 ## InceptionFlow Realtime Camera Object Recognition
 
-Once the testing stage has completed, Test will be set to false and the loop will continue onto the camera processing. On lines 46 and onwards in InceptionFlow.py, you see that the program connects to the primary webcam on your computer. 
+Update data/confs.json -> ClassifierSettings -> MODE to ObjectCam, this will set the program to capture the local webcam and process it for objects it knows.
 
-In the main part of the script, now that Test has finished, the program checks what mode it is in. By default the program is set to ObjectLocal. The program continues to check the webcam feed for an object and processes them to guess what objects they are.
+On lines 47 and onwards in InceptionFlow.py, you see that the program connects to the primary webcam on your computer. 
 
 If the program identifies an object, it sends a notification to the IoT JumpWay.
 
@@ -206,92 +246,164 @@ You can easily connect to an IP cam by changing the URL field in data/confs.json
 	]
 ```
 
-### EXAMPLE FRAME
+### LIVE TESTING
 
- On my system, the quality from the camera is not amazing due to it being night time. Below you will see a frame from the camera and a selection of the output from the program from that frame onwards. The program clearly is able to identify the lamp and the chest, I am interested to see the results tomorrow in the daylight. 
+ With a threshold of 0.5, the following identifications were made in a live environment (Cherrypicked).
+ 
+![LIVE TESTING](images/frames/01-04.jpg) 
+ 
+```
+InceptionFlow\InceptionFlow/data/captures/2018-01-28/13/01-04.jpg
 
-![Example Frame](images/frames/32-15.jpg) 
+TOP PREDICTIONS:
+whippet (score = 0.80831)
+Italian greyhound (score = 0.05006)
+quilt, comforter, comfort, puff (score = 0.03492)
+studio couch, day bed (score = 0.02149)
+mosquito net (score = 0.00331)
+
+Object: whippet
+Confidence: 0.808311
+
+Published to Device Sensors Channel
+Published: 37
+```
+ 
+![LIVE TESTING](images/frames/01-13.jpg) 
+
+```
+InceptionFlow\InceptionFlow/data/captures/2018-01-28/13/01-13.jpg
+
+TOP PREDICTIONS:
+studio couch, day bed (score = 0.68807)
+boxer (score = 0.06134)
+quilt, comforter, comfort, puff (score = 0.05531)
+pillow (score = 0.05483)
+American Staffordshire terrier, Staffordshire terrier, American pit bull terrier, pit bull terrier (score = 0.04028)
+
+Object: studio couch, day bed
+Confidence: 0.68807167
+
+Published to Device Sensors Channel
+Published: 38
+```
+
+```
+InceptionFlow\InceptionFlow/data/captures/2018-01-28/13/00-07.jpg
+
+
+TOP PREDICTIONS:
+studio couch, day bed (score = 0.55105)
+quilt, comforter, comfort, puff (score = 0.21434)
+whippet (score = 0.08104)
+pillow (score = 0.02408)
+boxer (score = 0.01519)
+
+Object: studio couch, day bed
+Confidence: 0.5510519
+
+Published to Device Sensors Channel
+Published: 32
+InceptionFlow\InceptionFlow/data/captures/2018-01-28/13/00-15.jpg
+
+
+TOP PREDICTIONS:
+whippet (score = 0.28307)
+studio couch, day bed (score = 0.23136)
+quilt, comforter, comfort, puff (score = 0.20973)
+Italian greyhound (score = 0.02032)
+redbone (score = 0.01729)
+
+
+NOTHING IDENTIFIED
+
+InceptionFlow\InceptionFlow/data/captures/2018-01-28/13/00-24.jpg
+
+
+TOP PREDICTIONS:
+quilt, comforter, comfort, puff (score = 0.28841)
+studio couch, day bed (score = 0.22828)
+American Staffordshire terrier, Staffordshire terrier, American pit bull terrier, pit bull terrier (score = 0.10877)
+boxer (score = 0.05448)
+whippet (score = 0.04049)
+
+
+NOTHING IDENTIFIED
+
+InceptionFlow\InceptionFlow/data/captures/2018-01-28/13/00-32.jpg
+
+
+TOP PREDICTIONS:
+whippet (score = 0.82170)
+studio couch, day bed (score = 0.11359)
+quilt, comforter, comfort, puff (score = 0.01984)
+borzoi, Russian wolfhound (score = 0.00535)
+pillow (score = 0.00404)
+
+Object: whippet
+Confidence: 0.82170016
+
+Published to Device Sensors Channel
+Published: 33
+```
 
 ### OUTPUT
 
 ```
-/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/20/32-15.jpg
-I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
+TESTING OBJECTS
+
+FILE: cropped_panda.jpg
 
 TOP PREDICTIONS:
-crate (score = 0.16082)
-wardrobe, closet, press (score = 0.08356)
-table lamp (score = 0.07620)
-lampshade, lamp shade (score = 0.06619)
-desk (score = 0.05752)
+giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca (score = 0.89632)
+indri, indris, Indri indri, Indri brevicaudatus (score = 0.00766)
+lesser panda, red panda, panda, bear cat, cat bear, Ailurus fulgens (score = 0.00266)
+custard apple (score = 0.00138)
+earthstar (score = 0.00104)
 
-Object: crate
-Confidence: 0.16081852
 
-Published to Device Sensors Channel
-Published: 2
+^^^IDENTIFIED^^^
+PROVIDED IMAGE: cropped_panda.jpg
+OBJECT DETECTED: giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca
+CONFIDENCE: 0.8963184
+...
 
-/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/20/32-21.jpg
-I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
-
-TOP PREDICTIONS:
-crate (score = 0.26500)
-lampshade, lamp shade (score = 0.05366)
-table lamp (score = 0.03618)
-desk (score = 0.03610)
-wardrobe, closet, press (score = 0.03102)
-
-Object: crate
-Confidence: 0.26500276
-
-Published to Device Sensors Channel
-Published: 3
-
-/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/20/32-27.jpg
-I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
+FILE: house.jpg
 
 TOP PREDICTIONS:
-crate (score = 0.22588)
-wardrobe, closet, press (score = 0.06275)
-dining table, board (score = 0.05320)
-lampshade, lamp shade (score = 0.04917)
-table lamp (score = 0.03575)
+mobile home, manufactured home (score = 0.41764)
+boathouse (score = 0.36377)
+Norfolk terrier (score = 0.00815)
+Airedale, Airedale terrier (score = 0.00674)
+lakeside, lakeshore (score = 0.00337)
 
-Object: crate
-Confidence: 0.22588398
-
-Published to Device Sensors Channel
-Published: 4
-
-/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/20/32-32.jpg
-I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
+FILE: mars-rover.jpg
 
 TOP PREDICTIONS:
-crate (score = 0.12352)
-table lamp (score = 0.10036)
-wardrobe, closet, press (score = 0.08558)
-lampshade, lamp shade (score = 0.06495)
-desk (score = 0.04919)
+warplane, military plane (score = 0.60562)
+projectile, missile (score = 0.10552)
+missile (score = 0.05302)
+wing (score = 0.01513)
+cannon (score = 0.00897)
 
-Object: crate
-Confidence: 0.12352495
 
-Published to Device Sensors Channel
-Published: 5
+^^^IDENTIFIED^^^
+PROVIDED IMAGE: mars-rover.jpg
+OBJECT DETECTED: warplane, military plane
+CONFIDENCE: 0.605617
+...
 
-/home/genisys/Desktop/InceptionFlow/InceptionFlow/images/2018-01-27/20/32-38.jpg
-I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 750 Ti, pci bus id: 0000:01:00.0)
+FILE: moon.jpg
 
 TOP PREDICTIONS:
-table lamp (score = 0.11011)
-crate (score = 0.09420)
-lampshade, lamp shade (score = 0.08453)
-wardrobe, closet, press (score = 0.06316)
-desk (score = 0.04722)
+bubble (score = 0.16346)
+saltshaker, salt shaker (score = 0.09212)
+tick (score = 0.05572)
+jellyfish (score = 0.04658)
+ladle (score = 0.01820)
 
-Object: table lamp
-Confidence: 0.11010705
-
+COMPLETED TESTING OBJECTS
+2 IDENTIFIED OBJECTS
 ```
 
 ## Preparing Training Data For Your Neural Network

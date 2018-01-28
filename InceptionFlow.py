@@ -21,44 +21,30 @@ class InceptionFlowCore():
     	
 	def __init__(self):
     		
-		#self.Mode =""
-		#self.Mode = "ObjectLocal"
-		#self.Mode = "ObjectCam"
-		self.Mode = "FacialLocal"
-		#self.Mode = "FacialCam"
-
-		self.Train=True
-		self.Test=False
-    		
+		"""	
+			CLASSIFIER MODE:
+			
+			Classifier configuration can be found in data/confs.json
+			
+				- ObjectTest: This mode sets the program to test object detection using images in the testing folder
+				- ObjectCam: This mode sets the program to monitoring the camera for objects
+				- FacialTest: This mode sets the program to test face detection using images in the testing folder
+				- FacialTrain: This mode sets the program to to train using the provided training data
+				- FacialCam: This mode sets the program to monitoring the camera for faces		
+		"""
+		
 		self.confs = {}
-		self.threshold = 0.05
-
-		self.InceptionFlow = InceptionFlow.InceptionFlow()
 		
 		with open('data/confs.json') as confs:
 			
 			self.confs = json.loads(confs.read())
 			
 		self.startMQTT()
+		self.InceptionFlow = InceptionFlow.InceptionFlow()
 		self.InceptionFlow.checkModelDownload()
-		self.InceptionFlow.createGraph(self.Mode)
+		self.InceptionFlow.createGraph(self.confs["ClassifierSettings"]["MODE"])
 		
-		if self.Mode == "ObjectLocal":
-
-			try:
-    			
-				self.OpenCVCapture = cv2.VideoCapture(self.confs["Cameras"][0]["URL"])
-
-			except Exception as e:
-				print("FAILED TO CONNECT TO WEBCAM")
-				print(str(e))
-				sys.exit()
-		
-		if self.Mode == "ObjectCam":
-        
-			pass
-		
-		elif self.Mode == "FacialLocal":
+		if self.confs["ClassifierSettings"]["MODE"] == "ObjectCam" or self.confs["ClassifierSettings"]["MODE"] == "FacialCam":
         
 			try:
     			
@@ -68,10 +54,6 @@ class InceptionFlowCore():
 				print("FAILED TO CONNECT TO WEBCAM")
 				print(str(e))
 				sys.exit()
-		
-		if self.Mode == "FacialCam":
-        
-			pass
 		
 	def startMQTT(self):
         
@@ -97,6 +79,39 @@ class InceptionFlowCore():
 		print("")
 		rootdir=os.getcwd()+"/model/testing/Objects/"
 		
+		identified = 0
+
+		for file in os.listdir(rootdir):
+    			
+			if file.endswith(".jpg"): 
+
+				print("FILE: "+file)
+
+				fileName = rootdir+"/"+file
+				Object,Confidence = self.InceptionFlow.classifyObject(fileName)
+
+				if Confidence > InceptionFlowCore.confs["ClassifierSettings"]["OBJECT_THRESHOLD"]:
+    					
+					identified = identified + 1
+    					
+					print("")
+					print("^^^IDENTIFIED^^^")
+					print("PROVIDED IMAGE: "+file)
+					print("OBJECT DETECTED: "+str(Object))
+					print("CONFIDENCE: "+str(Confidence))
+					print("...")
+					print("")
+
+		print("COMPLETED TESTING OBJECTS")
+		print(str(identified) + " IDENTIFIED OBJECTS")
+		print("")
+		
+	def facialTesting(self):
+		
+		print("TESTING FACIAL REC")
+		print("")
+		rootdir=os.getcwd()+"/model/testing/Facial/"
+		
 		for file in os.listdir(rootdir):
 
 			if file.endswith(".jpg"): 
@@ -104,45 +119,55 @@ class InceptionFlowCore():
 				print("FILE: "+file)
 
 				fileName = rootdir+"/"+file
-				label,confidence = self.InceptionFlow.classifyObject(fileName)
-				
-				if label:
+				newPayload = cv2.imread(fileName,1)
+				currentImage,inceptionImage,detected = self.InceptionFlow.captureAndDetect(newPayload)
+
+				if detected is None:
+					continue
+
+				Label,Confidence = self.InceptionFlow.classifyFace(inceptionImage)
+
+				if Confidence > self.confs["ClassifierSettings"]["FACIAL_THRESHOLD"]:
 					
 					print("")
 					print("PROVIDED IMAGE: "+file)
-					print("OBJECT DETECTED: "+str(label))
-					print("CONFIDENCE: "+str(confidence))
+					print("OBJECT DETECTED: "+str(Label))
+					print("CONFIDENCE: "+str(Confidence))
 					print("...")
 					print("")
 
-		print("COMPLETING TESTING OBJECTS")
+		print("COMPLETED TESTING FACIAL RECOGNITION")
 		print("")
 		
 InceptionFlowCore = InceptionFlowCore()
 
 while True:
-    	
-	if InceptionFlowCore.Train==True:
     		
+	if InceptionFlowCore.confs["ClassifierSettings"]["MODE"] == "FacialTrain":
+		
 		InceptionFlowCore.InceptionFlow.trainModel()
 		InceptionFlowCore.Train=False
 		
 		print("TRAINING COMPLETED")
 		print("")
     		
-	elif InceptionFlowCore.Test==True:
-    		
-		if InceptionFlowCore.Mode == "ObjectCam" or InceptionFlowCore.Mode == "ObjectLocal":	
+	elif InceptionFlowCore.confs["ClassifierSettings"]["MODE"] == "ObjectTest":	
 		
 			InceptionFlowCore.objectTesting()
-			InceptionFlowCore.Test=False
 			
-			print("TESTING DEACTIVATED")
+			print("TESTING COMPLETED")
 			print("")
     		
-	else:
+	elif InceptionFlowCore.confs["ClassifierSettings"]["MODE"] == "FacialTest":	
+	
+		InceptionFlowCore.facialTesting()
 		
-		if InceptionFlowCore.Mode == "ObjectLocal":	
+		print("TESTING COMPLETED")
+		print("")
+    		
+	else:
+    		
+		if InceptionFlowCore.confs["ClassifierSettings"]["MODE"] == "ObjectCam":	
     	
 			try:
 				
@@ -151,7 +176,7 @@ while True:
 
 				savedFrame = InceptionFlowCore.InceptionFlow.saveImage(frame)
 				Object,Confidence = InceptionFlowCore.InceptionFlow.classifyObject(savedFrame)
-				if Confidence > InceptionFlowCore.threshold:
+				if Confidence > InceptionFlowCore.confs["ClassifierSettings"]["OBJECT_THRESHOLD"]:
 						
 					print("Object: "+str(Object))
 					print("Confidence: "+str(Confidence))
@@ -178,19 +203,47 @@ while True:
 			
 			except cv2.error as e:
 				print(e)     
-    		
-		elif InceptionFlowCore.Mode == "ObjectCam":
-    			
-				pass 
+				
+		elif InceptionFlowCore.confs["ClassifierSettings"]["MODE"] == "FacialCam":	
+    	
+			try:
+				
+				ret, frame = InceptionFlowCore.OpenCVCapture.read()
+				if not ret: continue
+				
+				currentImage,inceptionImage,detected = InceptionFlowCore.InceptionFlow.captureAndDetect(frame)
 
-		elif InceptionFlowCore.Mode == "FacialLocal":
-    			
-				pass 
+				if detected is None:
+					continue
+				
+				Object,Confidence = InceptionFlowCore.InceptionFlow.classifyFace(inceptionImage)
+				if Confidence > InceptionFlowCore.confs["ClassifierSettings"]["FACIAL_THRESHOLD"]:
+						
+					print("Person: "+str(Object))
+					print("Confidence: "+str(Confidence))
+					print("")
 					
-		elif InceptionFlowCore.Mode == "FacialCam":	
-    			
-				pass
+					InceptionFlowCore.JumpWayMQTTClient.publishToDeviceChannel(
+							"Sensors",
+							InceptionFlowCore.confs["IoTJumpWaySettings"]["SystemZone"],
+							InceptionFlowCore.confs["IoTJumpWaySettings"]["SystemDeviceID"],
+							{
+								"Sensor":"CCTV",
+								"SensorID": InceptionFlowCore.confs["Cameras"][0]["ID"],
+								"SensorValue":"PERSON: " + str(Object) + " (Confidence: " + str(Confidence) + ")"
+							}
+						)
+					
+				else:
+					
+					print("")
+					print("NOTHING IDENTIFIED")
+					print("")
+
+				time.sleep(5)
+			
+			except cv2.error as e:
+				print(e) 
 
 InceptionFlowCore.OpenCVCapture.release()
-cv2.destroyAllWindows()
 InceptionFlowCore.JumpWayMQTTClient.disconnectFromApplication()
