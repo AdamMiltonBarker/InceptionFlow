@@ -1,27 +1,27 @@
 {
 	"IoTJumpWaySettings": {
-		"SystemLocation": YourLocationID,
-		"SystemApplicationID": YourApplicationID,
-		"SystemApplicationName" : "YourApplicationName",
-		"SystemZone": YourZoneID,
-		"SystemDeviceID": YourDeviceID,
-		"SystemDeviceName" : "YourDeviceName"
-	},
+        "SystemLocation": 1,
+        "SystemApplicationID": 55,
+        "SystemApplicationName" : "InceptionFlow",
+        "SystemZone": 1,
+        "SystemDeviceID": 83,
+        "SystemDeviceName" : "InceptionFlow"
+    },
 	"Actuators": {},
 	"Cameras": [
 		{
-			"ID": YourCameraID,
+			"ID": 156,
 			"URL": 0,
-			"Name": "YourCameraName"
+			"Name": "Server"
 		}
 	],
 	"Sensors": {},
 	"IoTJumpWayMQTTSettings": {
-		"MQTTUsername": "YourMQTTUsername",
-		"MQTTPassword": "YourMQTTPassword"
-	},
+        "MQTTUsername": "dL7axN1Xtyz6",
+        "MQTTPassword": "e7khq3n(gxetKxeKu*hz"
+    },
 	"ClassifierSettings":{
-		"MODE":"ObjectTest",
+		"MODE":"ObjectCam",
 		"INCEPTION_SIZE":299,  
 		"OBJECT_THRESHOLD": 0.5,
 		"FACIAL_THRESHOLD": 0.9965,

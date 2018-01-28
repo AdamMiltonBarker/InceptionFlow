@@ -347,65 +347,6 @@ Published to Device Sensors Channel
 Published: 33
 ```
 
-### OUTPUT
-
-```
-TESTING OBJECTS
-
-FILE: cropped_panda.jpg
-
-TOP PREDICTIONS:
-giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca (score = 0.89632)
-indri, indris, Indri indri, Indri brevicaudatus (score = 0.00766)
-lesser panda, red panda, panda, bear cat, cat bear, Ailurus fulgens (score = 0.00266)
-custard apple (score = 0.00138)
-earthstar (score = 0.00104)
-
-
-^^^IDENTIFIED^^^
-PROVIDED IMAGE: cropped_panda.jpg
-OBJECT DETECTED: giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca
-CONFIDENCE: 0.8963184
-...
-
-FILE: house.jpg
-
-TOP PREDICTIONS:
-mobile home, manufactured home (score = 0.41764)
-boathouse (score = 0.36377)
-Norfolk terrier (score = 0.00815)
-Airedale, Airedale terrier (score = 0.00674)
-lakeside, lakeshore (score = 0.00337)
-
-FILE: mars-rover.jpg
-
-TOP PREDICTIONS:
-warplane, military plane (score = 0.60562)
-projectile, missile (score = 0.10552)
-missile (score = 0.05302)
-wing (score = 0.01513)
-cannon (score = 0.00897)
-
-
-^^^IDENTIFIED^^^
-PROVIDED IMAGE: mars-rover.jpg
-OBJECT DETECTED: warplane, military plane
-CONFIDENCE: 0.605617
-...
-
-FILE: moon.jpg
-
-TOP PREDICTIONS:
-bubble (score = 0.16346)
-saltshaker, salt shaker (score = 0.09212)
-tick (score = 0.05572)
-jellyfish (score = 0.04658)
-ladle (score = 0.01820)
-
-COMPLETED TESTING OBJECTS
-2 IDENTIFIED OBJECTS
-```
-
 ## Preparing Training Data For Your Neural Network
 
 Create 1 or more folders in the model/training/Facial directory, these folders will represent classes, and there should be 1 folder / class (person), name the folder using something that will allow you identify who the photos are of, the name of the folder / class will be used by the program to let you know who it has detected. You can use names, user IDs or anything you like for the folder / class names, but bear in mind privacy. We have successfully tested with 30 training images per class, but your application may need more or less than this. You will need at least 2 classes to begin training.
