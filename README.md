@@ -12,10 +12,6 @@ The Inception v3 model is a deep convolutional neural network released by Google
 
 InceptionFlow is an object & facial recognition Python wrapper for the Tensorflow Imagenet (Inception V3) example and integrates IoT connectivity using the TechBubble IoT JumpWay Python MQTT client.
 
-## Object Recognition
-
-InceptionFlow object recognition is based on the latest version of Google's Imagenet classifier example: [classify_image.py](https://github.com/tensorflow/models/blob/master/tutorials/image/imagenet/classify_image.py "classify_image.py"). 
-
 ## Included In This Tutorial
 
 - Testing InceptionFlow Object & Facial Recognition: Looping through a local folder of random objects.
@@ -24,6 +20,10 @@ InceptionFlow object recognition is based on the latest version of Google's Imag
 - Processing the live streams for Object & Facial Recognition.
 - Communicating with other devices and applications via the IoT JumpWay. 
 - Facing The Open Set Recognition Issue.  
+
+## Object Recognition
+
+InceptionFlow object recognition is based on the latest version of Google's Imagenet classifier example: [classify_image.py](https://github.com/tensorflow/models/blob/master/tutorials/image/imagenet/classify_image.py "classify_image.py"). 
 
 ## Facial Recognition
 
@@ -61,9 +61,10 @@ This project has been tested in Python 3.5.4
 
 ## Hardware Requirements
 
-1. NVIDIA GEFORCE GTX (Suggested for Tensorflow with GPU, tested on 750ti)
+1. NVIDIA GEFORCE GTX (If using Tensorflow GPU)
+2. Webcam / IP cam
 
-I originally created this project on a Raspberry Pi 3 so it is definitely possible to do this project without. This tutorial assumes using a GPU. To install Tensorflow on CPU or GPU, follow the relevant instructions on [Tensorflow's Installation Docs](https://www.tensorflow.org/install/ "Tensorflow's Installation Docs").
+I originally created this project on a Raspberry Pi 3 so it is definitely possible to do this project on a CPU. To install Tensorflow on CPU or GPU, follow the relevant instructions on [Tensorflow's Installation Docs](https://www.tensorflow.org/install/ "Tensorflow's Installation Docs").
 
 ## Software requirements
 
