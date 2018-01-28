@@ -291,7 +291,6 @@ Published: 38
 ```
 InceptionFlow\InceptionFlow/data/captures/2018-01-28/13/00-07.jpg
 
-
 TOP PREDICTIONS:
 studio couch, day bed (score = 0.55105)
 quilt, comforter, comfort, puff (score = 0.21434)
@@ -306,7 +305,6 @@ Published to Device Sensors Channel
 Published: 32
 InceptionFlow\InceptionFlow/data/captures/2018-01-28/13/00-15.jpg
 
-
 TOP PREDICTIONS:
 whippet (score = 0.28307)
 studio couch, day bed (score = 0.23136)
@@ -314,11 +312,9 @@ quilt, comforter, comfort, puff (score = 0.20973)
 Italian greyhound (score = 0.02032)
 redbone (score = 0.01729)
 
-
 NOTHING IDENTIFIED
 
 InceptionFlow\InceptionFlow/data/captures/2018-01-28/13/00-24.jpg
-
 
 TOP PREDICTIONS:
 quilt, comforter, comfort, puff (score = 0.28841)
@@ -327,11 +323,9 @@ American Staffordshire terrier, Staffordshire terrier, American pit bull terrier
 boxer (score = 0.05448)
 whippet (score = 0.04049)
 
-
 NOTHING IDENTIFIED
 
 InceptionFlow\InceptionFlow/data/captures/2018-01-28/13/00-32.jpg
-
 
 TOP PREDICTIONS:
 whippet (score = 0.82170)
@@ -347,24 +341,13 @@ Published to Device Sensors Channel
 Published: 33
 ```
 
-## Preparing Training Data For Your Neural Network
+## Preparing Training Data For Your Facial Recognition Neural Network
 
 Create 1 or more folders in the model/training/Facial directory, these folders will represent classes, and there should be 1 folder / class (person), name the folder using something that will allow you identify who the photos are of, the name of the folder / class will be used by the program to let you know who it has detected. You can use names, user IDs or anything you like for the folder / class names, but bear in mind privacy. We have successfully tested with 30 training images per class, but your application may need more or less than this. You will need at least 2 classes to begin training.
 
-## Training Your Neural Network
+## Training Your Facial Recognition Neural Network
 
-Now you have added your training data, you should train your neural network. Update lines 24 - 31 of InceptionFlow.py to look like the following:
-
-```   		
-    #self.Mode =""
-    #self.Mode = "ObjectLocal"
-    #self.Mode = "ObjectCam"
-    self.Mode = "FacialLocal"
-    #self.Mode = "FacialCam"
-
-    self.Train=True
-    self.Test=False
-```
+Now you have added your training data, you should train your neural network. Update data/confs.json -> ClassifierSettings -> MODE to FacialTrain, this will set the program to training mode.
 
 Then execute the program to begin training:
 
