@@ -14,10 +14,11 @@ InceptionFlow is an object & facial recognition Python wrapper for the Tensorflo
 
 ## Included In This Tutorial
 
-- Testing InceptionFlow Object & Facial Recognition: Looping through a local folder of random objects.
-- Connecting to a local webcam.
+- Object Recognition
+- Facial Recognition
+- Custom Recognition
 - Connecting to an IP webcam.
-- Processing the live streams for Object & Facial Recognition.
+- Processing the live streams for Object / Facial & Custom Recognition.
 - Communicating with other devices and applications via the IoT JumpWay. 
 - Facing The Open Set Recognition Issue.  
 
@@ -27,7 +28,11 @@ InceptionFlow object recognition is based on the latest version of Google's Imag
 
 ## Facial Recognition
 
-The foundations of this project were in 2016. The project then was originally built on a [Raspberry Pi](https://iot.techbubbletechnologies.com/videos/tass-techbubble-autonomous-sight-system-videos/video/tass-inception-v3-transfer-learning-raspberry-pi "Raspberry Pi") and included inference and transfer learning being carried out locally on the Raspberry Pi locally. The Raspberry Pi version was highly accurate at detecting known people, but was vulnerable to the open set recognition issue.  
+The foundations of this project were built in 2016. The project then was originally built on a [Raspberry Pi](https://iot.techbubbletechnologies.com/videos/tass-techbubble-autonomous-sight-system-videos/video/tass-inception-v3-transfer-learning-raspberry-pi "Raspberry Pi") and included inference and transfer learning being carried out locally on the Raspberry Pi locally. The Raspberry Pi version was highly accurate at detecting known people, but was vulnerable to the open set recognition issue.  
+
+## Custom Recognition
+
+InceptionFlow allows for custom training of non facial images. 
 
 ## Open Set Recognition Issue
 
@@ -148,9 +153,9 @@ Below is the relevant configuration you need to add in data/confs.json. Update t
 
 ## Testing InceptionFlow Object Recognition
 
-The first excercise once you are set up is to test the default object recognition functionality.
+The first exercise once you are set up is to test the default object recognition functionality.
 
-On line 144 of InceptionFlow.py and onwards, you will notice that once the program is initiated it loops continually checking what mode the program is in. In this case we are in ObjectTest so we hit line 154 which initiates objectTesting. 
+On line 82 of InceptionFlow.py and onwards, you will notice that once the program is initiated it loops continually checking what mode the program is in. In this case we are in ObjectTest so we hit line 98 which initiates testModel in ObjectTest mode. 
 
 When you are in the root of the repo, issue the following command:
 
@@ -158,7 +163,7 @@ When you are in the root of the repo, issue the following command:
     $ python InceptionFlow.py
 ```
 
-With a threshold of 0.5 running on Tensorflow CPU on Windows, the following identifications were made.
+With a threshold of 0.5 (changeable in confs.json running on Tensorflow CPU on Windows, the following identifications were made.
 
 ```
 TESTING OBJECTS
@@ -227,11 +232,7 @@ As mentioned previously, with object detection the confidences are more realisti
 
 ## InceptionFlow Realtime Camera Object Recognition
 
-Update data/confs.json -> ClassifierSettings -> MODE to ObjectCam, this will set the program to capture the local webcam and process it for objects it knows.
-
-On lines 47 and onwards in InceptionFlow.py, you see that the program connects to the primary webcam on your computer. 
-
-If the program identifies an object, it sends a notification to the IoT JumpWay.
+Update data/confs.json -> ClassifierSettings -> MODE to ObjectCam, this will set the program to capture the local webcam and process it for objects it knows. On lines 55 and onwards in InceptionFlow.py, you see that the program connects to the camera specified in confs.json. If the program identifies an object, it sends a notification to the IoT JumpWay.
 
 ### Using An IP Camera
 
@@ -371,6 +372,10 @@ TRAINING COMPLETED
 ```
 
 Training is now complete.
+
+## Testing Your Facial Recognition Neural Network
+
+Now you have trained your neural network, you should test it. Update data/confs.json -> ClassifierSettings -> MODE to FacialTest, this will set the program to facial recognition testing mode.
 
 ## Viewing Your Data  
 
