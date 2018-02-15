@@ -343,11 +343,11 @@ Published to Device Sensors Channel
 Published: 33
 ```
 
-## Preparing Training Data For Your Facial Recognition Neural Network
+## Preparing Training Data For Your Facial / Custom Recognition Neural Network
 
-Create 1 or more folders in the model/training/Facial directory, these folders will represent classes, and there should be 1 folder / class (person), name the folder using something that will allow you identify who the photos are of, the name of the folder / class will be used by the program to let you know who it has detected. You can use names, user IDs or anything you like for the folder / class names, but bear in mind privacy. We have successfully tested with 30 training images per class, but your application may need more or less than this. You will need at least 2 classes to begin training.
+Create 1 or more folders in the model/training/facial or model/training/custom directory depending on what you are wanting to train. These folders will represent classes, and there should be 1 folder / class (person/type), name the folder using something that will allow you identify what or who the photos are of, the name of the folder / class will be used by the program to let you know what has been detected. You can use names, user IDs or anything you like for the folder / class names, but bear in mind privacy. We have successfully tested with 30 training images per class, but your application may need more or less than this. You will need at least 2 classes to begin training.
 
-## Training Your Facial Recognition Neural Network
+## Training Your Facial / Custom Recognition Neural Network
 
 Now you have added your training data, you should train your neural network. Update data/confs.json -> ClassifierSettings -> MODE to FacialTrain, this will set the program to training mode.
 
@@ -373,9 +373,13 @@ TRAINING COMPLETED
 
 Training is now complete.
 
-## Testing Your Facial Recognition Neural Network
+## Testing Your Facial / Custom Recognition Neural Network
 
-Now you have trained your neural network, you should test it. Update data/confs.json -> ClassifierSettings -> MODE to FacialTest, this will set the program to facial recognition testing mode.
+Now you have trained your neural network, you should test it. Update data/confs.json -> ClassifierSettings -> MODE to FacialTest or CustomTest, this will set the program to facial or custom recognition testing mode. 
+
+## Your Live Facial / Custom Recognition Neural Network
+
+Update data/confs.json -> ClassifierSettings -> MODE to FacialCam or CustomCam, this will set the program to facial or custom recognition testing mode. It is important you get the modes correct, as the facial recognition has an additional step to custom and object recognition. With facial recognition the frame is first passed through Haarcascades to detect if faces are present before inferring against the neural network.
 
 ## Viewing Your Data  
 
